@@ -1,51 +1,33 @@
-import React from 'react';
+import "./App.css";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./pages/Home";
+import Blog from "./pages/Blog";
+import About from "./pages/About";
+import Paintings from "./pages/Paintings";
+import NoMatch from "./pages/NoMatch";
 
-import { ApolloProvider } from '@apollo/react-hooks';
-import ApolloClient from 'apollo-boost';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
-import NoMatch from './pages/NoMatch';
-import Profile from './pages/Profile';
-import Signup from './pages/Signup';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
-import Header from './components/Header';
-import Footer from './components/Footer';
-
-import Home from './pages/Home';
-
-const client = new ApolloClient({
-  // retrieves token from local storage
-  request: operation => {
-    const token = localStorage.getItem('id_token');
-
-    operation.setContext({
-      headers: {
-        authorization: token ? `Bearer ${token}` : ''
-      }
-    });
-  },
-  uri: '/graphql'
-})
 function App() {
   return (
-    <ApolloProvider client= {client}>
-      <Router>
-      <div className='flex-column justify-flex-start min-100-vh'>
+    <Router>
+      <div className="App">
         <Header />
-          <div className='container'>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/signup" component={Signup} />
-              <Route exact path="/profile:username?" component={Profile} />
+        <div className="container">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/blog" component={Blog} />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/paintings" component={Paintings} />
 
-              <Route component= {NoMatch} />
-            </Switch>
-          </div>
-          <Footer />
+            <Route exact path="/nomatch" component={NoMatch} />
+          </Switch>
         </div>
-      </Router>
-    </ApolloProvider>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
