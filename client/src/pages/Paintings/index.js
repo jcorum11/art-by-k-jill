@@ -3,6 +3,7 @@ import Masony from "react-masonry-component";
 // import fs from "fs";
 // import Modal from "../Modal";
 import { imageList } from "./config";
+import ButtonBar from "../../components/Button-bar";
 
 // get photos from images/category-*/
 // add them to dom
@@ -25,7 +26,7 @@ const Paintings = () => {
     return r.keys().map(r);
   }
 
-  const images = importAll(
+  const pictureObjectArray = importAll(
     require.context("./images/", false, /\.(png|jpe?g|svg|PNG|JPE?G|TIF|tif)$/)
   );
 
@@ -41,6 +42,7 @@ const Paintings = () => {
 
   return (
     <div>
+      <ButtonBar pictureObjectArray={pictureObjectArray} />
       <Masony
         className={"photo-list"}
         elementType={"ul"}
@@ -51,9 +53,9 @@ const Paintings = () => {
         {/* {isModelOpen && (
         <Modal currentPhoto={currentPhoto} onClose={toggleModal} />
       )} */}
-        {images.map((image, i) => (
+        {pictureObjectArray.map((image, i) => (
           <li className={`photo-item`}>
-            <img src={images[i].default} alt={image.name} />
+            <img src={pictureObjectArray[i].default} alt={image.name} />
           </li>
         ))}
       </Masony>
