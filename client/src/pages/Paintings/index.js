@@ -1,36 +1,42 @@
 import React, { useState } from "react";
 import Masony from "react-masonry-component";
-// import fs from "fs";
-// import Modal from "../Modal";
-import { imageList } from "./config";
-import ButtonBar from "../../components/Button-bar";
-
-// get photos from images/category-*/
-// add them to dom
 
 const Paintings = () => {
-  const [currentPhoto, setCurrentPhoto] = useState();
-  const [isModelOpen, setIsModelOpen] = useState(false);
+  const [categoryString, setCategory] = useState("all");
 
-  // const category = "business";
-
-  // const currentPhotos = imageList.filter(
-  //   (photo) => photo.category === category
-
-  const toggleModal = (image, i) => {
-    setCurrentPhoto({ ...image, index: i });
-    setIsModelOpen(!isModelOpen);
-  };
-
+  // import images in images folder as an object
   function importAll(r) {
     return r.keys().map(r);
   }
-
   const pictureObjectArray = importAll(
     require.context("./images/", false, /\.(png|jpe?g|svg|PNG|JPE?G|TIF|tif)$/)
   );
 
-  // console.log(images);
+  // jsx for dynamically rendering images
+  const dynamicImageHandler = (filteredPictureObjectArray) => {
+    return filteredPictureObjectArray.map((image, i) => (
+      <li className={`photo-item`}>
+        <img src={filteredPictureObjectArray[i].default} alt={image.name} />
+      </li>
+    ));
+  };
+
+  // when current category changes: filter for images with that category
+  const pictureArrayHandler = () => {
+    if(categoryString === "all") {
+      return dynamicImageHandler(pictureObjectArray)
+    }
+    const filteredPictureObjectArray = [];
+    pictureObjectArray.map((pictureObject) => {
+      const pathArray = pictureObject.default.split("/");
+      const nameArray = pathArray[pathArray.length - 1].split("-");
+      const pictureCategoryString = nameArray[0];
+      if (pictureCategoryString === categoryString) {
+        filteredPictureObjectArray.push(pictureObject);
+      }
+    });
+    return dynamicImageHandler(filteredPictureObjectArray)
+  };
 
   // Masory Options
   const masonryOptions = {
@@ -42,7 +48,36 @@ const Paintings = () => {
 
   return (
     <div>
-      <ButtonBar pictureObjectArray={pictureObjectArray} />
+      <div id="button-bar" className="container">
+        <button
+          id="all-btn "
+          className="btn-warning mr-4"
+          onClick={() => setCategory("all")}
+        >
+          All
+        </button>
+        <button
+          id="paintings-btn "
+          className="btn-warning m-4"
+          onClick={() => setCategory("paintings")}
+        >
+          Paintings
+        </button>
+        <button
+          id="stationary-btn "
+          className="btn-warning m-4"
+          onClick={() => setCategory("stationary")}
+        >
+          Stationary
+        </button>
+        <button
+          id="business-btn "
+          className="btn-warning m-4"
+          onClick={() => setCategory("business")}
+        >
+          Business
+        </button>
+      </div>
       <Masony
         className={"photo-list"}
         elementType={"ul"}
@@ -53,11 +88,7 @@ const Paintings = () => {
         {/* {isModelOpen && (
         <Modal currentPhoto={currentPhoto} onClose={toggleModal} />
       )} */}
-        {pictureObjectArray.map((image, i) => (
-          <li className={`photo-item`}>
-            <img src={pictureObjectArray[i].default} alt={image.name} />
-          </li>
-        ))}
+        {pictureArrayHandler()}
       </Masony>
     </div>
   );
