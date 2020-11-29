@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Masony from "react-masonry-component";
+import Hero from '../../components/Hero';
 
 const Paintings = () => {
   const [categoryString, setCategory] = useState("all");
@@ -48,6 +49,7 @@ const Paintings = () => {
 
   return (
     <div>
+      <Hero />
       <div id="button-bar" className="container">
         <button
           id="all-btn "
