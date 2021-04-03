@@ -1,0 +1,12 @@
+#paintings-container {
+  button {
+    background-color: $chi-blue;
+    text-decoration: none;
+    &:hover {
+      background-color: $chi-green;
+    }
+    &:active {
+      transform: translateY(4px);
+    }
+  }
+}

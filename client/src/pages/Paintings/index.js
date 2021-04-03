@@ -48,33 +48,33 @@ const Paintings = () => {
   };
 
   return (
-    <div>
+    <div id="paintings-container">
       <Hero />
-      <div id="button-bar" className="container">
+      <div id="button-bar" className="container d-flex justify-content-between p-0">
         <button
-          id="all-btn "
-          className="btn-warning mr-4"
+          id="all-btn"
+          className="btn mr-4 my-4"
           onClick={() => setCategory("all")}
         >
           All
         </button>
         <button
           id="paintings-btn "
-          className="btn-warning m-4"
+          className="btn m-4"
           onClick={() => setCategory("paintings")}
         >
           Paintings
         </button>
         <button
           id="stationary-btn "
-          className="btn-warning m-4"
+          className="btn m-4"
           onClick={() => setCategory("stationary")}
         >
           Stationary
         </button>
         <button
           id="business-btn "
-          className="btn-warning m-4"
+          className="btn ml-4 my-4"
           onClick={() => setCategory("business")}
         >
           Business
